@@ -26,7 +26,7 @@ TEST_CASE("TypeConverter#integerToBytes") {
   }
 }
 
-TEST_CASE("TypeConverter#base64ToArray") {
+TEST_CASE("TypeConverter#bytesToArray") {
   SECTION("Basic case") {
     vector<uint8_t> bytes {0x1};
 
@@ -44,6 +44,32 @@ TEST_CASE("TypeConverter#base64ToArray") {
     auto actual = TypeConverter::bytesToArray<3>(bytes);
 
     array<uint8_t, 3> expected {0xff, 0xec, 0x78};
+
+    REQUIRE(actual == expected);
+  }
+}
+
+TEST_CASE("TypeConverter#decodeBase64") {
+  SECTION("It should return decoded characters") {
+    const string b64_str = "SGVsbG8=";
+    auto actual = TypeConverter::decodeBase64(b64_str);
+
+    const string expected = "Hello";
+
+    REQUIRE(actual == expected);
+  }
+}
+
+TEST_CASE("TypeConverter#base64ToArray") {
+  const int ARRAY_SIZE = 8;
+
+  SECTION("It should return decoded base64 string") {
+    const string b64_str = "SGVsbG8=";
+    auto actual = TypeConverter::base64ToArray<ARRAY_SIZE>(b64_str);
+
+    auto expected_str = "Hello"s;
+    array<uint8_t, ARRAY_SIZE> expected;
+    std::copy(expected_str.begin(), expected_str.begin() + expected_str.size(), expected.begin());
 
     REQUIRE(actual == expected);
   }

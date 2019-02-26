@@ -6,6 +6,10 @@
 #include <numeric>
 #include <vector>
 
+#include <botan-2/botan/base64.h>
+#include <botan-2/botan/exceptn.h>
+#include <botan-2/botan/secmem.h>
+
 using namespace std;
 
 class TypeConverter {
@@ -36,6 +40,31 @@ public:
     std::copy(bytes.begin(), bytes.begin() + copyableSize, arr.begin());
 
     return arr;
+  }
+
+  template <size_t S>
+  inline static std::array<uint8_t, S> base64ToArray(string_view b64_str) {
+    using Array = std::array<uint8_t, S>;
+
+    string decoded_string = decodeBase64(b64_str);
+
+    size_t len = (decoded_string.size() >= S) ? S : decoded_string.size();
+
+    Array arr;
+    std::copy(decoded_string.begin(), decoded_string.begin() + len, arr.begin());
+
+    return arr;
+  }
+
+  inline static string decodeBase64(string_view b64_str) {
+    try {
+      auto decoded = Botan::base64_decode(static_cast<string>(b64_str));
+      return string(decoded.begin(), decoded.end());
+    } catch (Botan::Exception &e) {
+      std::cout << e.what() << std::endl;
+    }
+
+    return string();
   }
 };
 

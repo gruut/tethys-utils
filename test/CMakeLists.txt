@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 
+set(LIB_PREFIX "/usr/local/lib")
+set(BOTAN_LIBS "${LIB_PREFIX}/libbotan-2.a")
+
 file(GLOB HEADER_FILES
         "../src/type_converter.hpp"
         )
@@ -10,4 +13,9 @@ add_executable(gruut_utils_test test_main.cpp)
 target_sources(gruut_utils_test
         PUBLIC
         ${HEADER_FILES}
+        )
+
+target_link_libraries(gruut_utils_test
+        PRIVATE
+        ${BOTAN_LIBS}
         )
