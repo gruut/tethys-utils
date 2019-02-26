@@ -66,6 +66,35 @@ public:
 
     return string();
   }
-};
 
+  template <typename T = std::vector<uint8_t>>
+  inline static std::string bytesToString(T &&input) {
+    return std::string(input.begin(), input.end());
+  }
+
+  template <size_t S, class Array=array<uint8_t, S>>
+  inline static std::string arrayToString(Array &&arr) {
+    std::string str(arr.begin(), arr.end());
+    return str;
+  }
+
+  inline static std::vector<uint8_t> stringToBytes(string_view input) {
+    return std::vector<uint8_t>(input.begin(), input.end());
+  }
+
+  template <typename T> inline static string encodeBase64(T &&t) {
+    try {
+      return Botan::base64_encode(vector<uint8_t>(begin(t), end(t)));
+    } catch (Botan::Exception &e) {
+      std::cout << e.what() << std::endl;
+    }
+
+    return std::string("");
+  }
+
+  template <class Container>
+  static inline std::string toString(const Container &&bytes) {
+    return std::string(bytes.cbegin(), bytes.cend());
+  }
+};
 #endif
