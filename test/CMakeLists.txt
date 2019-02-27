@@ -19,3 +19,9 @@ target_link_libraries(gruut_utils_test
         PRIVATE
         ${BOTAN_LIBS}
         )
+
+add_custom_command(
+        TARGET gruut_utils_test
+        POST_BUILD
+        COMMAND clang-format -i *.cpp
+)

@@ -15,7 +15,7 @@ using namespace std;
 
 class TypeConverter {
 public:
-  template<class T>
+  template <class T>
   inline static vector<uint8_t> integerToBytes(T input) {
     std::vector<uint8_t> v;
     auto input_size = sizeof(input);
@@ -31,7 +31,7 @@ public:
     return v;
   }
 
-  template<size_t ArraySize, typename T = std::vector<uint8_t>>
+  template <size_t ArraySize, typename T = std::vector<uint8_t>>
   inline static std::array<uint8_t, ArraySize> bytesToArray(T &&bytes) {
     using Array = std::array<uint8_t, ArraySize>;
 
@@ -73,7 +73,7 @@ public:
     return std::string(input.begin(), input.end());
   }
 
-  template <size_t S, class Array=array<uint8_t, S>>
+  template <size_t S, class Array = array<uint8_t, S>>
   inline static std::string arrayToString(Array &&arr) {
     std::string str(arr.begin(), arr.end());
     return str;
@@ -83,7 +83,8 @@ public:
     return std::vector<uint8_t>(input.begin(), input.end());
   }
 
-  template <typename T> inline static string encodeBase64(T &&t) {
+  template <typename T>
+  inline static string encodeBase64(T &&t) {
     try {
       return Botan::base64_encode(vector<uint8_t>(begin(t), end(t)));
     } catch (Botan::Exception &e) {
