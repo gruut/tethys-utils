@@ -27,10 +27,6 @@ public:
     return result;
   }
 
-  inline static string toBase64(hash_t hashed_bytes) {
-    return Botan::base64_encode(hashed_bytes);
-  }
-
   static hash_t hash(vector<uint8_t> &&msg_bytes) {
     return hash(msg_bytes);
   }
