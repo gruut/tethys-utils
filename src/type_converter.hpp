@@ -9,6 +9,7 @@
 #include <botan-2/botan/base64.h>
 #include <botan-2/botan/exceptn.h>
 #include <botan-2/botan/secmem.h>
+#include <iostream>
 
 using namespace std;
 
