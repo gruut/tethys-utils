@@ -5,7 +5,7 @@ set(LIB_PREFIX "/usr/local/lib")
 set(BOTAN_LIBS "${LIB_PREFIX}/libbotan-2.a")
 
 file(GLOB HEADER_FILES
-        "../src/type_converter.hpp"
+        "../src/*.hpp"
         )
 
 add_executable(gruut_utils_test test_main.cpp)
