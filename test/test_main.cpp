@@ -5,6 +5,7 @@
 #include "../lib/catch.hpp"
 #include "./ecdsa_test.cpp"
 
+#include "./random_number_generator_test.cpp"
 #include "./sha256_test.cpp"
 #include "./type_converter_test.cpp"
 
