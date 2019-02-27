@@ -3,6 +3,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(LIB_PREFIX "/usr/local/lib")
 set(BOTAN_LIBS "${LIB_PREFIX}/libbotan-2.a")
+set(LZ4_LIBS "${LIB_PREFIX}/liblz4.a")
 
 file(GLOB HEADER_FILES
         "../src/*.hpp"
@@ -18,6 +19,7 @@ target_sources(gruut_utils_test
 target_link_libraries(gruut_utils_test
         PRIVATE
         ${BOTAN_LIBS}
+        ${LZ4_LIBS}
         )
 
 add_custom_command(
