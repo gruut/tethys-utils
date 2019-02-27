@@ -5,7 +5,7 @@
 
 using namespace std;
 
-TEST_CASE("TypeConverter#integerToBytes") {
+TEST_CASE("TypeConverter.integerToBytes") {
   SECTION("Basic case") {
     auto actual = TypeConverter::integerToBytes(1);
 
@@ -23,7 +23,7 @@ TEST_CASE("TypeConverter#integerToBytes") {
   }
 }
 
-TEST_CASE("TypeConverter#bytesToArray") {
+TEST_CASE("TypeConverter.bytesToArray") {
   SECTION("Basic case") {
     vector<uint8_t> bytes{0x1};
 
@@ -46,7 +46,7 @@ TEST_CASE("TypeConverter#bytesToArray") {
   }
 }
 
-TEST_CASE("TypeConverter#decodeBase64") {
+TEST_CASE("TypeConverter.decodeBase64") {
   SECTION("It should return decoded characters") {
     const string b64_str = "SGVsbG8=";
     auto actual = TypeConverter::decodeBase64(b64_str);
@@ -57,7 +57,7 @@ TEST_CASE("TypeConverter#decodeBase64") {
   }
 }
 
-TEST_CASE("TypeConverter#base64ToArray") {
+TEST_CASE("TypeConverter.base64ToArray") {
   const int ARRAY_SIZE = 8;
 
   SECTION("It should return decoded base64 string") {
@@ -72,7 +72,7 @@ TEST_CASE("TypeConverter#base64ToArray") {
   }
 }
 
-TEST_CASE("TypeConverter#bytesToString") {
+TEST_CASE("TypeConverter.bytesToString") {
   SECTION("It should return string") {
     vector<uint8_t> v = {0x0, 0x0, 0x0, 0x01};
     auto actual = TypeConverter::bytesToString(v);
@@ -83,7 +83,7 @@ TEST_CASE("TypeConverter#bytesToString") {
   }
 }
 
-TEST_CASE("TypeConverter#arrayToString") {
+TEST_CASE("TypeConverter.arrayToString") {
   const int ARRAY_SIZE = 4;
 
   SECTION("It should work") {
@@ -96,7 +96,7 @@ TEST_CASE("TypeConverter#arrayToString") {
   }
 }
 
-TEST_CASE("TypeConverter#stringToBytes") {
+TEST_CASE("TypeConverter.stringToBytes") {
   SECTION("It should work") {
     auto actual = TypeConverter::stringToBytes("Hello"s);
 
@@ -106,7 +106,7 @@ TEST_CASE("TypeConverter#stringToBytes") {
   }
 }
 
-TEST_CASE("TypeConverter#encodeBase64") {
+TEST_CASE("TypeConverter.encodeBase64") {
   SECTION("It should work") {
     auto actual = TypeConverter::encodeBase64("Hello"s);
 
@@ -116,7 +116,7 @@ TEST_CASE("TypeConverter#encodeBase64") {
   }
 }
 
-TEST_CASE("TypeConverter#toString") {
+TEST_CASE("TypeConverter.toString") {
   SECTION("It should work") {
     auto actual = TypeConverter::toString("Hello"s);
 

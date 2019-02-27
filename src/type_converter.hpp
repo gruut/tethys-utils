@@ -35,10 +35,10 @@ public:
   inline static std::array<uint8_t, ArraySize> bytesToArray(T &&bytes) {
     using Array = std::array<uint8_t, ArraySize>;
 
-    size_t copyableSize = (bytes.size() >= ArraySize) ? ArraySize : bytes.size();
+    size_t copyable_size = (bytes.size() >= ArraySize) ? ArraySize : bytes.size();
 
     Array arr;
-    std::copy(bytes.begin(), bytes.begin() + copyableSize, arr.begin());
+    std::copy(bytes.begin(), bytes.begin() + copyable_size, arr.begin());
 
     return arr;
   }
