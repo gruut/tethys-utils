@@ -24,4 +24,4 @@
   * A class for converting the type to another.
   
 ### Issues & Bugs
-- For now, use GitHub `issues.`
+- For now, use GitHub [issues](https://github.com/gruut/gruut-utils/issues)
