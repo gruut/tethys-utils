@@ -28,8 +28,7 @@ public:
 
     vector<uint8_t> dest(dest_capacity);
 
-    int dest_length = LZ4_compress_default(
-            (const char *) src.data(), (char *) dest.data(), src_size, dest_capacity);
+    int dest_length = LZ4_compress_default((const char *)src.data(), (char *)dest.data(), src_size, dest_capacity);
 
     vector<uint8_t> dest2(dest.begin(), dest.begin() + dest_length);
     return dest2;
@@ -42,7 +41,7 @@ public:
     int dest_capacity = compressed_size * 3;
     dest.resize(dest_capacity);
 
-    int dest_length = LZ4_decompress_safe(src.data(), (char *) dest.data(), compressed_size, dest_capacity);
+    int dest_length = LZ4_decompress_safe(src.data(), (char *)dest.data(), compressed_size, dest_capacity);
     string dest2 = dest.substr(0, dest_length);
 
     return dest2;
@@ -54,8 +53,7 @@ public:
     int dest_capacity = compressed_size * 3;
     vector<uint8_t> dest(dest_capacity);
 
-    int dest_length = LZ4_decompress_safe((const char *) src.data(), (char *) dest.data(), compressed_size,
-                                          dest_capacity);
+    int dest_length = LZ4_decompress_safe((const char *)src.data(), (char *)dest.data(), compressed_size, dest_capacity);
     vector<uint8_t> dest2(dest.begin(), dest.begin() + dest_length);
 
     return dest2;

@@ -49,7 +49,11 @@ public:
 
     string decoded_string = decodeBase64(b64_str);
 
-    size_t len = (decoded_string.size() >= S) ? S : decoded_string.size();
+    size_t len;
+    if (decoded_string.size() > S)
+      len = S;
+    else
+      len = decoded_string.size();
 
     Array arr;
     std::copy(decoded_string.begin(), decoded_string.begin() + len, arr.begin());
@@ -60,6 +64,7 @@ public:
   inline static string decodeBase64(string_view b64_str) {
     try {
       auto decoded = Botan::base64_decode(static_cast<string>(b64_str));
+
       return string(decoded.begin(), decoded.end());
     } catch (Botan::Exception &e) {
       std::cout << e.what() << std::endl;

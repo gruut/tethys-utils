@@ -38,7 +38,7 @@ public:
     return hash_function->final_stdvec();
   }
 
-  template<size_t S>
+  template <size_t S>
   static hash_t hash(array<uint8_t, S> &msg_bytes_array) {
     unique_ptr<Botan::HashFunction> hash_function(Botan::HashFunction::create("SHA-256"));
 

@@ -18,10 +18,8 @@ using namespace std;
 
 class HmacKeyMaker {
 public:
-  HmacKeyMaker() :
-          group_domain{"secp256r1"},
-          kdf{"Raw"},
-          curve{Botan::CurveGFp(group_domain.get_p(), group_domain.get_a(), group_domain.get_b())} {}
+  HmacKeyMaker()
+      : group_domain{"secp256r1"}, kdf{"Raw"}, curve{Botan::CurveGFp(group_domain.get_p(), group_domain.get_a(), group_domain.get_b())} {}
 
   pair<string, string> getPublicKey() {
     generateRandomSecretKey();
@@ -33,16 +31,13 @@ public:
 
     const size_t point_len = point_size / 2;
 
-    const string my_public_key_x(uncomp_point.begin() + 2,
-                                 uncomp_point.begin() + point_len + 2);
-    const string my_public_key_y(uncomp_point.begin() + point_len + 2,
-                                 uncomp_point.end());
+    const string my_public_key_x(uncomp_point.begin() + 2, uncomp_point.begin() + point_len + 2);
+    const string my_public_key_y(uncomp_point.begin() + point_len + 2, uncomp_point.end());
 
     return make_pair(my_public_key_x, my_public_key_y);
   }
 
-  vector<uint8_t>
-  getSharedSecretKey(const string &your_public_key_x, const string &your_public_key_y, int key_len = 32) {
+  vector<uint8_t> getSharedSecretKey(const string &your_public_key_x, const string &your_public_key_y, int key_len = 32) {
     Botan::secure_vector<uint8_t> symmetric_secret_key;
 
     try {
@@ -51,9 +46,7 @@ public:
       auto decoded_public_key_x = Botan::hex_decode(your_public_key_x);
       auto decoded_public_key_y = Botan::hex_decode(your_public_key_y);
 
-      Botan::PointGFp your_public_key_point(
-              curve, Botan::BigInt(decoded_public_key_x),
-              Botan::BigInt(decoded_public_key_y));
+      Botan::PointGFp your_public_key_point(curve, Botan::BigInt(decoded_public_key_x), Botan::BigInt(decoded_public_key_y));
       Botan::ECDH_PublicKey your_public_key(group_domain, your_public_key_point);
 
       Botan::PK_Key_Agreement new_ecdh(my_secret_key, rng, kdf);

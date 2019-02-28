@@ -13,8 +13,7 @@ using namespace std;
 class RandomNumGenerator {
 public:
   static vector<uint8_t> randomize(size_t random_number_bytes) {
-    std::unique_ptr<Botan::RandomNumberGenerator> generator(
-            new Botan::AutoSeeded_RNG());
+    std::unique_ptr<Botan::RandomNumberGenerator> generator(new Botan::AutoSeeded_RNG());
 
     uint8_t buffer[random_number_bytes];
     generator->randomize(buffer, random_number_bytes);

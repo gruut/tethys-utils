@@ -21,9 +21,7 @@ static const string EMSA = "EMSA1(SHA-256)"s;
 
 class ECDSA {
 public:
-  static vector<uint8_t> doSign(const string &ecdsa_secret_key_pem,
-                                const string &msg,
-                                const string &passphrase = "") {
+  static vector<uint8_t> doSign(const string &ecdsa_secret_key_pem, const string &msg, const string &passphrase = "") {
     try {
       auto msg_bytes = TypeConverter::stringToBytes(msg);
 
@@ -38,9 +36,7 @@ public:
     }
   }
 
-  static vector<uint8_t> doSign(const string &ecdsa_secret_key_pem,
-                                const vector<uint8_t> &msg_bytes,
-                                const string &passphrase = "") {
+  static vector<uint8_t> doSign(const string &ecdsa_secret_key_pem, const vector<uint8_t> &msg_bytes, const string &passphrase = "") {
     try {
       auto ecdsa_secret_key = getPrivateKey(ecdsa_secret_key_pem, passphrase);
 
@@ -52,13 +48,11 @@ public:
     }
   }
 
-  static bool doVerify(const string &ecdsa_cert_pem, const string &msg,
-                       const vector<uint8_t> &signature) {
+  static bool doVerify(const string &ecdsa_cert_pem, const string &msg, const vector<uint8_t> &signature) {
     try {
       Botan::DataSource_Memory cert_datasource(ecdsa_cert_pem);
       Botan::X509_Certificate cert(cert_datasource);
-      Botan::ECDSA_PublicKey public_key(cert.subject_public_key_algo(),
-                                        cert.subject_public_key_bitstring());
+      Botan::ECDSA_PublicKey public_key(cert.subject_public_key_algo(), cert.subject_public_key_bitstring());
 
       const vector<uint8_t> msg_bytes(msg.begin(), msg.end());
       return doVerify(public_key, msg_bytes, signature);
@@ -69,14 +63,11 @@ public:
     }
   }
 
-  static bool doVerify(const string &ecdsa_cert_pem,
-                       const vector<uint8_t> &msg_bytes,
-                       const vector<uint8_t> &signature) {
+  static bool doVerify(const string &ecdsa_cert_pem, const vector<uint8_t> &msg_bytes, const vector<uint8_t> &signature) {
     try {
       Botan::DataSource_Memory cert_datasource(ecdsa_cert_pem);
       Botan::X509_Certificate cert(cert_datasource);
-      Botan::ECDSA_PublicKey public_key(cert.subject_public_key_algo(),
-                                        cert.subject_public_key_bitstring());
+      Botan::ECDSA_PublicKey public_key(cert.subject_public_key_algo(), cert.subject_public_key_bitstring());
 
       return doVerify(public_key, msg_bytes, signature);
     } catch (Botan::Exception &exception) {
@@ -87,8 +78,7 @@ public:
   }
 
 private:
-  static Botan::ECDSA_PrivateKey getPrivateKey(const string &ecdsa_secret_key_pem,
-                                               const string &passphrase = "") {
+  static Botan::ECDSA_PrivateKey getPrivateKey(const string &ecdsa_secret_key_pem, const string &passphrase = "") {
     try {
       Botan::DataSource_Memory signkey_datasource(ecdsa_secret_key_pem);
       unique_ptr<Botan::Private_Key> signkey(Botan::PKCS8::load_key(signkey_datasource, passphrase));
@@ -101,20 +91,15 @@ private:
     }
   }
 
-  static vector<uint8_t> doSign(Botan::ECDSA_PrivateKey &ecdsa_secret_key,
-                                const vector<uint8_t> &msg_bytes) {
+  static vector<uint8_t> doSign(Botan::ECDSA_PrivateKey &ecdsa_secret_key, const vector<uint8_t> &msg_bytes) {
     Botan::AutoSeeded_RNG auto_rng;
-    Botan::PK_Signer signer(ecdsa_secret_key, auto_rng, EMSA,
-                            Botan::Signature_Format::DER_SEQUENCE);
+    Botan::PK_Signer signer(ecdsa_secret_key, auto_rng, EMSA, Botan::Signature_Format::DER_SEQUENCE);
 
     return signer.sign_message(msg_bytes, auto_rng);
   }
 
-  static bool doVerify(Botan::Public_Key &ecdsa_public_key,
-                       const vector<uint8_t> &msg_bytes,
-                       const vector<uint8_t> &signature) {
-    Botan::PK_Verifier verifier(ecdsa_public_key, EMSA,
-                                Botan::Signature_Format::DER_SEQUENCE);
+  static bool doVerify(Botan::Public_Key &ecdsa_public_key, const vector<uint8_t> &msg_bytes, const vector<uint8_t> &signature) {
+    Botan::PK_Verifier verifier(ecdsa_public_key, EMSA, Botan::Signature_Format::DER_SEQUENCE);
 
     return verifier.verify_message(msg_bytes, signature);
   }

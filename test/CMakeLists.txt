@@ -22,8 +22,10 @@ target_link_libraries(gruut_utils_test
         ${LZ4_LIBS}
         )
 
-add_custom_command(
-        TARGET gruut_utils_test
-        POST_BUILD
-        COMMAND clang-format -i *.cpp
-)
+IF (NOT $ENV{TRAVIS})
+    add_custom_command(
+            TARGET gruut_utils_test
+            POST_BUILD
+            COMMAND clang-format -i *.cpp
+    )
+ENDIF ()
