@@ -4,6 +4,7 @@
 ## Utilities for cpp projects
 
 ### Dependency
+- Cpp17
 - [Botan](https://github.com/randombit/botan)
 - [LZ4](https://github.com/lz4/lz4)
 
