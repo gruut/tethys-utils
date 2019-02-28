@@ -18,8 +18,8 @@ TEST_CASE("RandomNumGenerator.randomize") {
   SECTION("It should return random number in range") {
     auto actual = RandomNumGenerator::getRange(0, 10);
 
-    bool isInRange = 0 <= actual && actual <= 10;
+    bool is_in_range = 0 <= actual && actual <= 10;
 
-    REQUIRE(isInRange);
+    REQUIRE(is_in_range);
   }
 }

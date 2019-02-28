@@ -58,14 +58,14 @@ TEST_CASE("TypeConverter.decodeBase64") {
 }
 
 TEST_CASE("TypeConverter.base64ToArray") {
-  const int ARRAY_SIZE = 8;
+  const int array_size = 8;
 
   SECTION("It should return decoded base64 string") {
     const string b64_str = "SGVsbG8=";
-    auto actual = TypeConverter::base64ToArray<ARRAY_SIZE>(b64_str);
+    auto actual = TypeConverter::base64ToArray<array_size>(b64_str);
 
     auto expected_str = "Hello"s;
-    array<uint8_t, ARRAY_SIZE> expected;
+    array<uint8_t, array_size> expected;
     std::copy(expected_str.begin(), expected_str.begin() + expected_str.size(), expected.begin());
 
     REQUIRE(actual == expected);
@@ -84,11 +84,11 @@ TEST_CASE("TypeConverter.bytesToString") {
 }
 
 TEST_CASE("TypeConverter.arrayToString") {
-  const int ARRAY_SIZE = 4;
+  const int array_size = 4;
 
   SECTION("It should work") {
-    array<uint8_t, ARRAY_SIZE> arr = {0x0, 0x0, 0x0, 0x01};
-    auto actual = TypeConverter::arrayToString<ARRAY_SIZE>(arr);
+    array<uint8_t, array_size> arr = {0x0, 0x0, 0x0, 0x01};
+    auto actual = TypeConverter::arrayToString<array_size>(arr);
 
     auto expected = "\x00\x00\x00\x01"s;
 

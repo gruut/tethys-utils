@@ -60,8 +60,8 @@ public:
       Botan::ECDSA_PublicKey public_key(cert.subject_public_key_algo(),
                                         cert.subject_public_key_bitstring());
 
-      const vector<uint8_t> msgBytes(msg.begin(), msg.end());
-      return doVerify(public_key, msgBytes, signature);
+      const vector<uint8_t> msg_bytes(msg.begin(), msg.end());
+      return doVerify(public_key, msg_bytes, signature);
     } catch (Botan::Exception &exception) {
       onError(exception);
 
@@ -70,7 +70,7 @@ public:
   }
 
   static bool doVerify(const string &ecdsa_cert_pem,
-                       const vector<uint8_t> &msgBytes,
+                       const vector<uint8_t> &msg_bytes,
                        const vector<uint8_t> &signature) {
     try {
       Botan::DataSource_Memory cert_datasource(ecdsa_cert_pem);
@@ -78,7 +78,7 @@ public:
       Botan::ECDSA_PublicKey public_key(cert.subject_public_key_algo(),
                                         cert.subject_public_key_bitstring());
 
-      return doVerify(public_key, msgBytes, signature);
+      return doVerify(public_key, msg_bytes, signature);
     } catch (Botan::Exception &exception) {
       onError(exception);
 
@@ -102,21 +102,21 @@ private:
   }
 
   static vector<uint8_t> doSign(Botan::ECDSA_PrivateKey &ecdsa_secret_key,
-                                const vector<uint8_t> &msgBytes) {
+                                const vector<uint8_t> &msg_bytes) {
     Botan::AutoSeeded_RNG auto_rng;
     Botan::PK_Signer signer(ecdsa_secret_key, auto_rng, EMSA,
                             Botan::Signature_Format::DER_SEQUENCE);
 
-    return signer.sign_message(msgBytes, auto_rng);
+    return signer.sign_message(msg_bytes, auto_rng);
   }
 
   static bool doVerify(Botan::Public_Key &ecdsa_public_key,
-                       const vector<uint8_t> &msgBytes,
+                       const vector<uint8_t> &msg_bytes,
                        const vector<uint8_t> &signature) {
     Botan::PK_Verifier verifier(ecdsa_public_key, EMSA,
                                 Botan::Signature_Format::DER_SEQUENCE);
 
-    return verifier.verify_message(msgBytes, signature);
+    return verifier.verify_message(msg_bytes, signature);
   }
 
   static void onError(Botan::Exception &exception) {
