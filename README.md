@@ -26,3 +26,6 @@
   
 ### Issues & Bugs
 - For now, use GitHub [issues](https://github.com/gruut/gruut-utils/issues)
+
+### License
+- MIT
