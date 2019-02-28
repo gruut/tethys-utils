@@ -37,14 +37,14 @@ public:
     return make_pair(my_public_key_x, my_public_key_y);
   }
 
-  vector<uint8_t> getSharedSecretKey(const string &your_public_key_x, const string &your_public_key_y, int key_len = 32) {
+  vector<uint8_t> getSharedSecretKey(string_view your_public_key_x, string_view your_public_key_y, int key_len = 32) {
     Botan::secure_vector<uint8_t> symmetric_secret_key;
 
     try {
       Botan::ECDH_PrivateKey my_secret_key(rng, group_domain, secret_key);
 
-      auto decoded_public_key_x = Botan::hex_decode(your_public_key_x);
-      auto decoded_public_key_y = Botan::hex_decode(your_public_key_y);
+      auto decoded_public_key_x = Botan::hex_decode(your_public_key_x.data());
+      auto decoded_public_key_y = Botan::hex_decode(your_public_key_y.data());
 
       Botan::PointGFp your_public_key_point(curve, Botan::BigInt(decoded_public_key_x), Botan::BigInt(decoded_public_key_y));
       Botan::ECDH_PublicKey your_public_key(group_domain, your_public_key_point);

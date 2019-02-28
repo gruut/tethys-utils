@@ -47,7 +47,7 @@ public:
   inline static std::array<uint8_t, S> base64ToArray(string_view b64_str) {
     using Array = std::array<uint8_t, S>;
 
-    string decoded_string = decodeBase64(b64_str);
+    string_view decoded_string = decodeBase64(b64_str);
 
     size_t len;
     if (decoded_string.size() > S)
@@ -63,7 +63,7 @@ public:
 
   inline static string decodeBase64(string_view b64_str) {
     try {
-      auto decoded = Botan::base64_decode(static_cast<string>(b64_str));
+      auto decoded = Botan::base64_decode(b64_str.data());
 
       return string(decoded.begin(), decoded.end());
     } catch (Botan::Exception &e) {

@@ -21,7 +21,7 @@ static const string EMSA = "EMSA1(SHA-256)"s;
 
 class ECDSA {
 public:
-  static vector<uint8_t> doSign(const string &ecdsa_secret_key_pem, const string &msg, const string &passphrase = "") {
+  static vector<uint8_t> doSign(string_view ecdsa_secret_key_pem, string_view msg, string_view passphrase = "") {
     try {
       auto msg_bytes = TypeConverter::stringToBytes(msg);
 
@@ -36,7 +36,7 @@ public:
     }
   }
 
-  static vector<uint8_t> doSign(const string &ecdsa_secret_key_pem, const vector<uint8_t> &msg_bytes, const string &passphrase = "") {
+  static vector<uint8_t> doSign(string_view ecdsa_secret_key_pem, const vector<uint8_t> &msg_bytes, string_view passphrase = ""sv) {
     try {
       auto ecdsa_secret_key = getPrivateKey(ecdsa_secret_key_pem, passphrase);
 
@@ -48,9 +48,9 @@ public:
     }
   }
 
-  static bool doVerify(const string &ecdsa_cert_pem, const string &msg, const vector<uint8_t> &signature) {
+  static bool doVerify(string_view ecdsa_cert_pem, string_view msg, const vector<uint8_t> &signature) {
     try {
-      Botan::DataSource_Memory cert_datasource(ecdsa_cert_pem);
+      Botan::DataSource_Memory cert_datasource(ecdsa_cert_pem.data());
       Botan::X509_Certificate cert(cert_datasource);
       Botan::ECDSA_PublicKey public_key(cert.subject_public_key_algo(), cert.subject_public_key_bitstring());
 
@@ -63,9 +63,9 @@ public:
     }
   }
 
-  static bool doVerify(const string &ecdsa_cert_pem, const vector<uint8_t> &msg_bytes, const vector<uint8_t> &signature) {
+  static bool doVerify(string_view ecdsa_cert_pem, const vector<uint8_t> &msg_bytes, const vector<uint8_t> &signature) {
     try {
-      Botan::DataSource_Memory cert_datasource(ecdsa_cert_pem);
+      Botan::DataSource_Memory cert_datasource(ecdsa_cert_pem.data());
       Botan::X509_Certificate cert(cert_datasource);
       Botan::ECDSA_PublicKey public_key(cert.subject_public_key_algo(), cert.subject_public_key_bitstring());
 
@@ -78,10 +78,10 @@ public:
   }
 
 private:
-  static Botan::ECDSA_PrivateKey getPrivateKey(const string &ecdsa_secret_key_pem, const string &passphrase = "") {
+  static Botan::ECDSA_PrivateKey getPrivateKey(string_view ecdsa_secret_key_pem, string_view passphrase = ""sv) {
     try {
-      Botan::DataSource_Memory signkey_datasource(ecdsa_secret_key_pem);
-      unique_ptr<Botan::Private_Key> signkey(Botan::PKCS8::load_key(signkey_datasource, passphrase));
+      Botan::DataSource_Memory signkey_datasource(ecdsa_secret_key_pem.data());
+      unique_ptr<Botan::Private_Key> signkey(Botan::PKCS8::load_key(signkey_datasource, passphrase.data()));
 
       return Botan::ECDSA_PrivateKey(signkey->algorithm_identifier(), signkey->private_key_bits());
     } catch (Botan::Exception &exception) {

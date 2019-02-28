@@ -15,16 +15,16 @@ class Sha256 {
   using hash_t = vector<uint8_t>;
 
 public:
-  inline static hash_t hash(const string &message) {
-    auto msg_bytes = TypeConverter::stringToBytes(message);
-    return hash(msg_bytes);
-  }
-
-  inline static bool isMatch(const string &target_message, const hash_t &hashed_message) {
+  inline static bool isMatch(string_view target_message, const hash_t &hashed_message) {
     auto hashed_target_message = hash(target_message);
     bool result = hashed_target_message == hashed_message;
 
     return result;
+  }
+
+  inline static hash_t hash(string_view message) {
+    auto msg_bytes = TypeConverter::stringToBytes(message);
+    return hash(msg_bytes);
   }
 
   static hash_t hash(vector<uint8_t> &&msg_bytes) {

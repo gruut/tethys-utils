@@ -6,7 +6,7 @@
 using namespace std;
 
 TEST_CASE("Sha256") {
-  const string &msg = "Hello world";
+  string_view msg = "Hello world"sv;
 
   auto hashed_message = Sha256::hash(msg);
   SECTION("Message should be matched with a hashed message") {

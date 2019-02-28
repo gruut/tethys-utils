@@ -6,7 +6,7 @@
 using namespace std;
 
 TEST_CASE("LZ4Compressor.compressData") {
-  const string msg = "Hello world"s;
+  string_view msg = "Hello world"sv;
 
   SECTION("It should work with string type message") {
     auto compressed_msg = LZ4Compressor::compressData(msg);
@@ -20,7 +20,7 @@ TEST_CASE("LZ4Compressor.compressData") {
 }
 
 TEST_CASE("LZ4Compressor.decompressData") {
-  const string msg = "Hello world"s;
+  string_view msg = "Hello world"sv;
   auto compressed_msg = LZ4Compressor::compressData(msg);
 
   SECTION("It should decompress string type message") {

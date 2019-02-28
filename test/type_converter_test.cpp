@@ -48,10 +48,10 @@ TEST_CASE("TypeConverter.bytesToArray") {
 
 TEST_CASE("TypeConverter.decodeBase64") {
   SECTION("It should return decoded characters") {
-    const string b64_str = "SGVsbG8=";
+    string_view b64_str = "SGVsbG8="sv;
     auto actual = TypeConverter::decodeBase64(b64_str);
 
-    const string expected = "Hello";
+    string_view expected = "Hello"sv;
 
     REQUIRE(actual == expected);
   }
@@ -61,7 +61,7 @@ TEST_CASE("TypeConverter.base64ToArray") {
   const int array_size = 8;
 
   SECTION("It should return decoded base64 string") {
-    const string b64_str = "SGVsbG8=";
+    string_view b64_str = "SGVsbG8="sv;
     auto actual = TypeConverter::base64ToArray<array_size>(b64_str);
 
     auto expected_str = "Hello"s;
