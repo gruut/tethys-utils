@@ -46,29 +46,38 @@ TEST_CASE("TypeConverter.bytesToArray") {
   }
 }
 
-TEST_CASE("TypeConverter.decodeBase64") {
+TEST_CASE("TypeConverter.decodeBase") {
   SECTION("It should return decoded characters") {
     string_view b64_str = "SGVsbG8="sv;
-    auto actual = TypeConverter::decodeBase64(b64_str);
+    string_view b58_str = "9Ajdvzr"sv;
+
+    auto b64_actual = TypeConverter::decodeBase<64>(b64_str);
+    auto b58_actual = TypeConverter::decodeBase<58>(b58_str);
 
     string_view expected = "Hello"sv;
 
-    REQUIRE(actual == expected);
+    REQUIRE(b64_actual == expected);
+    REQUIRE(b58_actual == expected);
   }
 }
 
-TEST_CASE("TypeConverter.base64ToArray") {
+TEST_CASE("TypeConverter.arrayFromBase") {
   const int array_size = 8;
 
-  SECTION("It should return decoded base64 string") {
+  SECTION("It should return decoded base58,64 string") {
     string_view b64_str = "SGVsbG8="sv;
-    auto actual = TypeConverter::base64ToArray<array_size>(b64_str);
+    string_view b58_str = "9Ajdvzr"sv;
+
+    auto b64_actual = TypeConverter::arrayFromBase<64, array_size>(b64_str);
+    auto b58_actual = TypeConverter::arrayFromBase<58, array_size>(b58_str);
 
     auto expected_str = "Hello"s;
-    array<uint8_t, array_size> expected;
-    std::copy(expected_str.begin(), expected_str.begin() + expected_str.size(), expected.begin());
+    array<uint8_t, array_size> b64_expected, b58_expected;
+    std::copy(expected_str.begin(), expected_str.begin() + expected_str.size(), b64_expected.begin());
+    std::copy(expected_str.begin(), expected_str.begin() + expected_str.size(), b58_expected.begin());
 
-    REQUIRE(actual == expected);
+    REQUIRE(b64_actual == b64_expected);
+    REQUIRE(b58_actual == b58_expected);
   }
 }
 
@@ -106,13 +115,18 @@ TEST_CASE("TypeConverter.stringToBytes") {
   }
 }
 
-TEST_CASE("TypeConverter.encodeBase64") {
+TEST_CASE("TypeConverter.encodeBase") {
   SECTION("It should work") {
-    auto actual = TypeConverter::encodeBase64("Hello"s);
+    string_view actual_str = "Hello"sv;
 
-    auto expected = "SGVsbG8="s;
+    auto b64_actual = TypeConverter::encodeBase<64>(actual_str);
+    auto b58_actual = TypeConverter::encodeBase<58>(actual_str);
 
-    REQUIRE(actual == expected);
+    auto b64_expected = "SGVsbG8="s;
+    auto b58_expected = "9Ajdvzr"s;
+
+    REQUIRE(b64_actual == b64_expected);
+    REQUIRE(b58_actual == b58_expected);
   }
 }
 
