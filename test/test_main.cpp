@@ -3,8 +3,8 @@
 #include <vector>
 
 #include "../lib/catch.hpp"
+#include "./bytes_builder.cpp"
 #include "./ecdsa_test.cpp"
-
 #include "./random_number_generator_test.cpp"
 #include "./sha256_test.cpp"
 #include "./type_converter_test.cpp"
