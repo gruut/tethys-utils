@@ -11,5 +11,6 @@
 #include "hmac_key_maker_test.cpp"
 #include "hmac_test.cpp"
 #include "lz4_compressor_test.cpp"
+#include "ags_test.cpp"
 
 TEST_CASE("All test cases reside in other .cpp files", "[multi-file:1]") {}

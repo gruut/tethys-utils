@@ -9,11 +9,16 @@ file(GLOB HEADER_FILES
         "../src/*.hpp"
         )
 
+file (GLOB SRC_FILES
+        "../src/*.cpp"
+        )
+
 add_executable(gruut_utils_test test_main.cpp)
 
 target_sources(gruut_utils_test
         PUBLIC
         ${HEADER_FILES}
+        ${SRC_FILES}
         )
 
 target_link_libraries(gruut_utils_test
