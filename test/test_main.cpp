@@ -1,7 +1,5 @@
 #define CATCH_CONFIG_MAIN
 
-#include <vector>
-
 #include "../lib/catch.hpp"
 #include "./bytes_builder.cpp"
 #include "./ecdsa_test.cpp"
