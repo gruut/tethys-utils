@@ -40,6 +40,18 @@ public:
     }
   }
 
+  void appendDec(uint64_t dec) {
+    for (int i = sizeof(dec) - 1; i >= 0; i--) {
+      bytes.push_back((dec >> (8 * i)) & 0xFF);
+    }
+  }
+
+  void appendDec(int dec) {
+    for (int i = sizeof(dec) - 1; i >= 0; i--) {
+      bytes.push_back((dec >> (8 * i)) & 0xFF);
+    }
+  }
+
   template <unsigned int S>
   void appendBase(string_view baseXX_str) {
     auto decoded_data = TypeConverter::decodeBase<S>(baseXX_str);
