@@ -40,13 +40,8 @@ public:
     }
   }
 
-  void appendDec(uint64_t dec) {
-    for (int i = sizeof(dec) - 1; i >= 0; i--) {
-      bytes.push_back((dec >> (8 * i)) & 0xFF);
-    }
-  }
-
-  void appendDec(int dec) {
+  template <typename T, typename = enable_if_t<is_same<T, int>::value || is_same<T, uint64_t>::value>>
+  void appendDec(T &dec) {
     for (int i = sizeof(dec) - 1; i >= 0; i--) {
       bytes.push_back((dec >> (8 * i)) & 0xFF);
     }
