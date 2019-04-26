@@ -1,4 +1,27 @@
+#include <algorithm>
+#include <bitset>
+#include <chrono>
+#include <cmath>
+#include <iostream>
+#include <optional>
+#include <utility>
+
+#include <botan-2/botan/data_src.h>
+#include <botan-2/botan/ecc_key.h>
+#include <botan-2/botan/ecdsa.h>
+#include <botan-2/botan/exceptn.h>
+#include <botan-2/botan/hash.h>
+#include <botan-2/botan/hex.h>
+#include <botan-2/botan/oids.h>
+#include <botan-2/botan/pem.h>
+#include <botan-2/botan/pk_keys.h>
+#include <botan-2/botan/pkcs8.h>
+#include <botan-2/botan/pubkey.h>
+#include <botan-2/botan/rng.h>
+#include <botan-2/botan/x509cert.h>
+
 #include "ags.hpp"
+
 
 optional<Signature> AGS::sign(const string &sk_pem, const string &msg, const string &pass) {
   try {

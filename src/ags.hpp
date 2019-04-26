@@ -1,33 +1,13 @@
 #ifndef GRUUT_UTILS_AGS_HPP
 #define GRUUT_UTILS_AGS_HPP
 
-#include <algorithm>
-#include <bitset>
-#include <chrono>
-#include <cmath>
-#include <iostream>
-#include <optional>
 #include <string>
-#include <utility>
 #include <vector>
 
-#include <botan-2/botan/auto_rng.h>
 #include <botan-2/botan/bigint.h>
-#include <botan-2/botan/data_src.h>
-#include <botan-2/botan/ec_group.h>
-#include <botan-2/botan/ecc_key.h>
-#include <botan-2/botan/ecdsa.h>
-#include <botan-2/botan/exceptn.h>
-#include <botan-2/botan/hash.h>
-#include <botan-2/botan/hex.h>
-#include <botan-2/botan/oids.h>
-#include <botan-2/botan/pem.h>
-#include <botan-2/botan/pk_keys.h>
-#include <botan-2/botan/pkcs8.h>
 #include <botan-2/botan/point_gfp.h>
-#include <botan-2/botan/pubkey.h>
-#include <botan-2/botan/rng.h>
-#include <botan-2/botan/x509cert.h>
+#include <botan-2/botan/auto_rng.h>
+#include <botan-2/botan/ec_group.h>
 
 using namespace std;
 
