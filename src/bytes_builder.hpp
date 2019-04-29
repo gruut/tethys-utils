@@ -40,6 +40,13 @@ public:
     }
   }
 
+  template <typename T, typename = enable_if_t<is_same<T, int>::value || is_same<T, uint64_t>::value>>
+  void appendDec(T &dec) {
+    for (int i = sizeof(dec) - 1; i >= 0; i--) {
+      bytes.push_back((dec >> (8 * i)) & 0xFF);
+    }
+  }
+
   template <unsigned int S>
   void appendBase(string_view baseXX_str) {
     auto decoded_data = TypeConverter::decodeBase<S>(baseXX_str);
