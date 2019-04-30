@@ -15,23 +15,20 @@ class Sha256 {
   using hash_t = vector<uint8_t>;
 
 public:
-  inline static bool isMatch(const string_view &target_message, const hash_t &hashed_message) {
+  inline static bool isMatch(string_view target_message, const hash_t &hashed_message) {
     auto hashed_target_message = hash(target_message);
     bool result = hashed_target_message == hashed_message;
 
     return result;
   }
 
-  inline static hash_t hash(const string_view &message) {
+  inline static hash_t hash(string_view message) {
     auto msg_bytes = TypeConverter::stringToBytes(message);
     return hash(msg_bytes);
   }
 
-  static hash_t hash(const vector<uint8_t> &&msg_bytes) {
-    return hash(msg_bytes);
-  }
-
-  static hash_t hash(const vector<uint8_t> &msg_bytes) {
+  template <typename T>
+  static hash_t hash(T &&msg_bytes) {
     unique_ptr<Botan::HashFunction> hash_function(Botan::HashFunction::create("SHA-256"));
     hash_function->update(msg_bytes);
 

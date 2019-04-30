@@ -23,7 +23,7 @@ public:
     bytes.insert(bytes.end(), begin(bytes_val), end(bytes_val));
   }
 
-  void appendHex(const string_view &hex_str) {
+  void appendHex(string_view hex_str) {
     int len = hex_str.length() / 2;
     vector<uint8_t> temp_vec;
     for (int i = 0; i < len; i++) {
@@ -33,7 +33,7 @@ public:
     append(temp_vec);
   }
 
-  void appendDec(const string_view &dec_str) {
+  void appendDec(string_view dec_str) {
     uint64_t dec = stoull(string(dec_str));
     for (int i = sizeof(dec) - 1; i >= 0; i--) {
       bytes.push_back((dec >> (8 * i)) & 0xFF);
@@ -48,7 +48,7 @@ public:
   }
 
   template <unsigned int S>
-  void appendBase(const string_view &baseXX_str) {
+  void appendBase(string_view baseXX_str) {
     auto decoded_data = TypeConverter::decodeBase<S>(baseXX_str);
     append(decoded_data);
   }

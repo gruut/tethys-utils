@@ -38,7 +38,7 @@ struct Decoder;
 
 template<>
 struct Decoder<58> {
-  static auto decode(const string_view &base_str) {
+  static auto decode(string_view base_str) {
     auto decoded = Botan::base58_decode(base_str.data());
     return string(decoded.begin(), decoded.end());
   }
@@ -46,7 +46,7 @@ struct Decoder<58> {
 
 template<>
 struct Decoder<64> {
-  static auto decode(const string_view &base_str) {
+  static auto decode(string_view base_str) {
     auto decoded = Botan::base64_decode(base_str.data());
     return string(decoded.begin(), decoded.end());
   }
@@ -83,7 +83,7 @@ public:
   }
 
   template<unsigned int S, size_t ArraySize>
-  inline static std::array<uint8_t, ArraySize> arrayFromBase(const string_view &basexx_str) {
+  inline static std::array<uint8_t, ArraySize> arrayFromBase(string_view basexx_str) {
     using Array = std::array<uint8_t, ArraySize>;
 
     string_view decoded_string = decodeBase<S>(basexx_str);
@@ -101,7 +101,7 @@ public:
   }
 
   template<unsigned int S>
-  inline static string decodeBase(const string_view &base_str) {
+  inline static string decodeBase(string_view base_str) {
     using decoder = Decoder<S>;
 
     try {
@@ -124,7 +124,7 @@ public:
     return str;
   }
 
-  inline static std::vector<uint8_t> stringToBytes(const string_view &input) {
+  inline static std::vector<uint8_t> stringToBytes(string_view input) {
     return std::vector<uint8_t>(input.begin(), input.end());
   }
 
