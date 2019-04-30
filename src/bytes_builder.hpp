@@ -19,7 +19,7 @@ public:
   ~BytesBuilder() = default;
 
   template <typename T>
-  void append(T &bytes_val) {
+  void append(const T &bytes_val) {
     bytes.insert(bytes.end(), begin(bytes_val), end(bytes_val));
   }
 
@@ -41,7 +41,7 @@ public:
   }
 
   template <typename T, typename = enable_if_t<is_same<T, int>::value || is_same<T, uint64_t>::value>>
-  void appendDec(T &dec) {
+  void appendDec(const T &dec) {
     for (int i = sizeof(dec) - 1; i >= 0; i--) {
       bytes.push_back((dec >> (8 * i)) & 0xFF);
     }

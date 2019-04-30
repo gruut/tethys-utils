@@ -27,11 +27,8 @@ public:
     return hash(msg_bytes);
   }
 
-  static hash_t hash(vector<uint8_t> &&msg_bytes) {
-    return hash(msg_bytes);
-  }
-
-  static hash_t hash(vector<uint8_t> &msg_bytes) {
+  template <typename T>
+  static hash_t hash(T &&msg_bytes) {
     unique_ptr<Botan::HashFunction> hash_function(Botan::HashFunction::create("SHA-256"));
     hash_function->update(msg_bytes);
 
@@ -39,7 +36,7 @@ public:
   }
 
   template <size_t S>
-  static hash_t hash(array<uint8_t, S> &msg_bytes_array) {
+  static hash_t hash(const array<uint8_t, S> &msg_bytes_array) {
     unique_ptr<Botan::HashFunction> hash_function(Botan::HashFunction::create("SHA-256"));
 
     auto msg_bytes = vector<uint8_t>(msg_bytes_array.begin(), msg_bytes_array.end());

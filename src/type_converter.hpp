@@ -55,7 +55,7 @@ struct Decoder<64> {
 class TypeConverter {
 public:
   template<class T>
-  inline static vector<uint8_t> integerToBytes(T input) {
+  inline static vector<uint8_t> integerToBytes(T &&input) {
     std::vector<uint8_t> v;
     auto input_size = sizeof(input);
 
