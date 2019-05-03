@@ -2,18 +2,41 @@
 #define GRUUT_UTILS_AGS_HPP
 
 #include <string>
+#include <string_view>
 #include <vector>
+#include <algorithm>
 
 #include <botan-2/botan/bigint.h>
 #include <botan-2/botan/point_gfp.h>
 #include <botan-2/botan/auto_rng.h>
 #include <botan-2/botan/ec_group.h>
+#include "type_converter.hpp"
 
 using namespace std;
 
 struct Signature {
   Botan::BigInt d;
   Botan::BigInt z;
+
+  string toString() {
+    auto d_hex = d.to_hex_string();
+    if(d_hex.length() < 64) {
+      auto padding_size = 64 - d_hex.length();
+      for(auto i=0; i < padding_size; ++i) {
+        d_hex = "0" + d_hex;
+      }
+    }
+
+    auto z_hex = z.to_hex_string();
+    if(z_hex.length() < 64) {
+      auto padding_size = 64 - z_hex.length();
+      for(auto i=0; i < padding_size; ++i) {
+        z_hex = "0" + z_hex;
+      }
+    }
+
+    return TypeConverter::encodeBase<64>(d_hex + z_hex);
+  }
 };
 
 struct AggregateSet {
@@ -34,15 +57,16 @@ public:
   AGS() : group_domain("secp256k1") {}
   ~AGS() = default;
 
-  optional<Signature> sign(const string &sk_pem, const string &msg, const string &pass = "");
-  optional<Signature> sign(Botan::BigInt &sk, const string &msg);
+  optional<string> sign(const string &sk_pem, const string &msg, const string &pass = "");
+  optional<string> sign(Botan::BigInt &sk, const string &msg);
 
-  bool verify(const string &encoded_pk, const string &msg, Signature &sig);
-  bool verify(Botan::PointGFp &pk, const string &msg, Signature &sig);
+  bool verify(const string &encoded_pk, const string &msg, std::string &);
+  bool verify(Botan::PointGFp &pk, const string &msg, std::string &);
 
   optional<vector<AggregateSig>> aggregate(vector<AggregateSet> &agg_set, Botan::BigInt &res_z);
   bool aggregateVerify(vector<AggregateSig> &agg_set, Botan::BigInt &sum_of_z);
 
+  Signature sigStrToSignature(const string &sig);
 private:
   Botan::AutoSeeded_RNG rng;
   Botan::EC_Group group_domain;

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <optional>
 #include <utility>
+#include <cassert>
 
 #include <botan-2/botan/data_src.h>
 #include <botan-2/botan/ecc_key.h>
@@ -22,8 +23,7 @@
 
 #include "ags.hpp"
 
-
-optional<Signature> AGS::sign(const string &sk_pem, const string &msg, const string &pass) {
+optional<string> AGS::sign(const string &sk_pem, const string &msg, const string &pass) {
   try {
     Botan::BigInt sk = getPrivateKey(sk_pem, pass);
     return sign(sk, msg);
@@ -33,7 +33,7 @@ optional<Signature> AGS::sign(const string &sk_pem, const string &msg, const str
   }
 }
 
-optional<Signature> AGS::sign(Botan::BigInt &sk, const string &msg) {
+optional<string> AGS::sign(Botan::BigInt &sk, const string &msg) {
   Signature sig;
   vector<Botan::BigInt> temp_vec;
   try {
@@ -41,27 +41,32 @@ optional<Signature> AGS::sign(Botan::BigInt &sk, const string &msg) {
     Botan::BigInt r = group_domain.random_scalar(rng);
     Botan::PointGFp a = group_domain.blinded_base_point_multiply(r, rng, temp_vec);
     sig.d = hash(a);
+
     Botan::BigInt e = hash(pk, msg);
-    sig.z = group_domain.mod_order(group_domain.multiply_mod_order(r, sig.d) - group_domain.multiply_mod_order(e, sk));
-    return sig;
+    Botan::BigInt result = group_domain.multiply_mod_order(r, sig.d) - group_domain.multiply_mod_order(e, sk);
+    sig.z = group_domain.mod_order(result);
+
+    return sig.toString();
   } catch (Botan::Exception &exception) {
     cout << "error on gamma sign: " << exception.what() << endl;
     return {};
   }
 }
 
-bool AGS::verify(const string &encoded_pk, const string &msg, Signature &sig) {
+bool AGS::verify(const string &encoded_pk, const string &msg, std::string &sig_str) {
   try {
     Botan::PointGFp pk = getPublicKey(encoded_pk);
-    return verify(pk, msg, sig);
+    return verify(pk, msg, sig_str);
   } catch (Botan::Exception &exception) {
     cout << "error on PEM to PK: " << exception.what() << endl;
     return false;
   }
 }
 
-bool AGS::verify(Botan::PointGFp &pk, const string &msg, Signature &sig) {
+bool AGS::verify(Botan::PointGFp &pk, const string &msg, std::string &sig_str) {
   try {
+    Signature sig = sigStrToSignature(sig_str);
+
     Botan::BigInt d_inv = group_domain.inverse_mod_order(sig.d);
     Botan::BigInt z_mul_d_inv = group_domain.multiply_mod_order(sig.z, d_inv);
     Botan::BigInt e_mul_d_inv = group_domain.multiply_mod_order(hash(pk, msg), d_inv);
@@ -80,15 +85,20 @@ optional<vector<AggregateSig>> AGS::aggregate(vector<AggregateSet> &agg_set, Bot
   Botan::PointGFp pk, a;
   try {
     for (auto &item : agg_set) {
-      pk = getPublicKey(item.encoded_pk);
-      d_inv = group_domain.inverse_mod_order(item.sig.d);
-      agg_sig.encoded_pk = item.encoded_pk;
+      auto sig = item.sig;
+
+      d_inv = group_domain.inverse_mod_order(sig.d);
       agg_sig.msg = item.msg;
-      a = group_domain.point_multiply(group_domain.multiply_mod_order(item.sig.z, d_inv), pk,
+      pk = getPublicKey(item.encoded_pk);
+
+      a = group_domain.point_multiply(group_domain.multiply_mod_order(sig.z, d_inv), pk,
                                       group_domain.multiply_mod_order(hash(pk, agg_sig.msg), d_inv));
       agg_sig.a_aff_x = a.get_affine_x().to_dec_string();
       agg_sig.a_aff_y = a.get_affine_y().to_dec_string();
-      res_z = group_domain.mod_order(res_z + item.sig.z);
+
+      agg_sig.encoded_pk = item.encoded_pk;
+
+      res_z = group_domain.mod_order(res_z + sig.z);
 
       agg_sig_vec.emplace_back(agg_sig);
     }
@@ -288,4 +298,22 @@ bool AGS::isUniqueElements(vector<AggregateSig> &aggregate_set) {
     return false;
 
   return t_list.size() == a_list.size();
+}
+
+Signature AGS::sigStrToSignature(const string &sig) {
+  auto decoded_sig = TypeConverter::decodeBase<64>(sig);
+
+  auto mid_index = 64;
+
+  auto d_str = decoded_sig.substr(0, mid_index);
+  auto z_str = decoded_sig.substr(mid_index, decoded_sig.length() - mid_index);
+
+  Signature s;
+  s.d = Botan::BigInt("0x" + d_str);
+  //s.d.sig_words();
+
+  s.z = Botan::BigInt("0x" + z_str);
+  //s.z.sig_words();
+
+  return s;
 }

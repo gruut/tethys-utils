@@ -9,7 +9,7 @@ using namespace std::chrono;
 
 const int MIN_INT = -2147483648;
 const int MAX_INT = 2147483647;
-const int TEST_SET_SIZE = 8000;
+const int TEST_SET_SIZE = 5000;
 
 Botan::EC_Group group_domain{"secp256k1"};
 Botan::AutoSeeded_RNG rng;
@@ -48,22 +48,27 @@ TEST_CASE("AGS") {
 
   SECTION("single sign & verify") {
     AGS ags;
+
+    bool expected = true;
     auto sig = ags.sign(test_key[0].sk, test_msg[0]);
     auto actual = ags.verify(test_key[0].encoded_pk, test_msg[0], sig.value());
 
-    bool expected = true;
     REQUIRE(actual == expected);
   }
+
   SECTION("aggregate & aggregateVerify") {
     AGS ags;
+
     vector<AggregateSet> test_agg_set;
     for (int i = 0; i < TEST_SET_SIZE; i++) {
       AggregateSet agg_set;
       agg_set.encoded_pk = test_key[i].encoded_pk;
       agg_set.msg = test_msg[i];
-      agg_set.sig = ags.sign(test_key[i].sk, test_msg[i]).value();
-      test_agg_set.emplace_back(agg_set);
+
+      agg_set.sig = ags.sigStrToSignature(ags.sign(test_key[i].sk, test_msg[i]).value());
+      test_agg_set.push_back(agg_set);
     }
+
     Botan::BigInt res_z;
     auto agg_sig_set = ags.aggregate(test_agg_set, res_z);
     auto actual = ags.aggregateVerify(agg_sig_set.value(), res_z);
