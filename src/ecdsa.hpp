@@ -77,6 +77,12 @@ public:
     }
   }
 
+  static bool doVerify(Botan::Public_Key &ecdsa_public_key, const vector<uint8_t> &msg_bytes, const vector<uint8_t> &signature) {
+    Botan::PK_Verifier verifier(ecdsa_public_key, EMSA, Botan::Signature_Format::DER_SEQUENCE);
+
+    return verifier.verify_message(msg_bytes, signature);
+  }
+
 private:
   static Botan::ECDSA_PrivateKey getPrivateKey(string_view ecdsa_secret_key_pem, string_view passphrase = ""sv) {
     try {
@@ -96,12 +102,6 @@ private:
     Botan::PK_Signer signer(ecdsa_secret_key, auto_rng, EMSA, Botan::Signature_Format::DER_SEQUENCE);
 
     return signer.sign_message(msg_bytes, auto_rng);
-  }
-
-  static bool doVerify(Botan::Public_Key &ecdsa_public_key, const vector<uint8_t> &msg_bytes, const vector<uint8_t> &signature) {
-    Botan::PK_Verifier verifier(ecdsa_public_key, EMSA, Botan::Signature_Format::DER_SEQUENCE);
-
-    return verifier.verify_message(msg_bytes, signature);
   }
 
   static void onError(Botan::Exception &exception) {
