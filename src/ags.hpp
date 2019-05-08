@@ -1,16 +1,16 @@
 #ifndef GRUUT_UTILS_AGS_HPP
 #define GRUUT_UTILS_AGS_HPP
 
+#include <algorithm>
 #include <string>
 #include <string_view>
 #include <vector>
-#include <algorithm>
 
-#include <botan-2/botan/bigint.h>
-#include <botan-2/botan/point_gfp.h>
-#include <botan-2/botan/auto_rng.h>
-#include <botan-2/botan/ec_group.h>
 #include "type_converter.hpp"
+#include <botan-2/botan/auto_rng.h>
+#include <botan-2/botan/bigint.h>
+#include <botan-2/botan/ec_group.h>
+#include <botan-2/botan/point_gfp.h>
 
 using namespace std;
 
@@ -20,17 +20,17 @@ struct Signature {
 
   string toString() {
     auto d_hex = d.to_hex_string();
-    if(d_hex.length() < 64) {
+    if (d_hex.length() < 64) {
       auto padding_size = 64 - d_hex.length();
-      for(auto i=0; i < padding_size; ++i) {
+      for (auto i = 0; i < padding_size; ++i) {
         d_hex = "0" + d_hex;
       }
     }
 
     auto z_hex = z.to_hex_string();
-    if(z_hex.length() < 64) {
+    if (z_hex.length() < 64) {
       auto padding_size = 64 - z_hex.length();
-      for(auto i=0; i < padding_size; ++i) {
+      for (auto i = 0; i < padding_size; ++i) {
         z_hex = "0" + z_hex;
       }
     }
@@ -67,6 +67,9 @@ public:
   bool aggregateVerify(vector<AggregateSig> &agg_set, Botan::BigInt &sum_of_z);
 
   Signature sigStrToSignature(const string &sig);
+
+  Botan::PointGFp getPublicKeyFromPem(const string &pk_pem);
+
 private:
   Botan::AutoSeeded_RNG rng;
   Botan::EC_Group group_domain;
@@ -81,7 +84,6 @@ private:
 
   Botan::BigInt getPrivateKey(const string &sk_pem, const string &pass = "");
   Botan::PointGFp getPublicKey(const string &encoded_pk);
-  Botan::PointGFp getPublicKeyFromPem(const string &pk_pem);
 
   bool isUniqueElements(vector<AggregateSig> &aggregate_set);
 };
