@@ -53,7 +53,7 @@ optional<string> AGS::sign(Botan::BigInt &sk, const string &msg) {
   }
 }
 
-bool AGS::verify(const string &encoded_pk, const string &msg, std::string &sig_str) {
+bool AGS::verify(const string &encoded_pk, const string &msg, const string &sig_str) {
   try {
     Botan::PointGFp pk = getPublicKey(encoded_pk);
     return verify(pk, msg, sig_str);
@@ -63,7 +63,7 @@ bool AGS::verify(const string &encoded_pk, const string &msg, std::string &sig_s
   }
 }
 
-bool AGS::verify(Botan::PointGFp &pk, const string &msg, std::string &sig_str) {
+bool AGS::verify(Botan::PointGFp &pk, const string &msg, const string &sig_str) {
   try {
     Signature sig = sigStrToSignature(sig_str);
 

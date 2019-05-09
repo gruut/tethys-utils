@@ -60,8 +60,8 @@ public:
   optional<string> sign(const string &sk_pem, const string &msg, const string &pass = "");
   optional<string> sign(Botan::BigInt &sk, const string &msg);
 
-  bool verify(const string &encoded_pk, const string &msg, std::string &);
-  bool verify(Botan::PointGFp &pk, const string &msg, std::string &);
+  bool verify(const string &encoded_pk, const string &msg, const string &);
+  bool verify(Botan::PointGFp &pk, const string &msg, const string &);
 
   optional<vector<AggregateSig>> aggregate(vector<AggregateSet> &agg_set, Botan::BigInt &res_z);
   bool aggregateVerify(vector<AggregateSig> &agg_set, Botan::BigInt &sum_of_z);
