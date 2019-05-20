@@ -63,6 +63,16 @@ bool AGS::verify(const string &encoded_pk, const string &msg, const string &sig_
   }
 }
 
+bool AGS::verifyPEM(const string &pem, const string &msg, const string &sig_str) {
+  try {
+    Botan::PointGFp pk = getPublicKeyFromPem(pem);
+    return verify(pk, msg, sig_str);
+  } catch (Botan::Exception &exception) {
+    cout << "error on PEM to PK: " << exception.what() << endl;
+    return false;
+  }
+}
+
 bool AGS::verify(Botan::PointGFp &pk, const string &msg, const string &sig_str) {
   try {
     Signature sig = sigStrToSignature(sig_str);

@@ -61,6 +61,7 @@ public:
   optional<string> sign(Botan::BigInt &sk, const string &msg);
 
   bool verify(const string &encoded_pk, const string &msg, const string &);
+  bool verifyPEM(const string &pem, const string &msg, const string &sig_str);
   bool verify(Botan::PointGFp &pk, const string &msg, const string &);
 
   optional<vector<AggregateSig>> aggregate(vector<AggregateSet> &agg_set, Botan::BigInt &res_z);
