@@ -1,5 +1,5 @@
 # tethys-utils
-[![Build Status](https://travis-ci.org/gruut/gruut-utils.svg?branch=master)](https://travis-ci.org/gruut/gruut-utils)
+[![Build Status](https://travis-ci.org/tethys/tethys-utils.svg?branch=master)](https://travis-ci.org/tethys/tethys-utils)
 
 ## Utilities for cpp projects
 
@@ -25,7 +25,7 @@
   * A class for converting the type to another.
   
 ### Issues & Bugs
-- For now, use GitHub [issues](https://github.com/gruut/gruut-utils/issues)
+- For now, use GitHub [issues](https://github.com/tethys/tethys-utils/issues)
 
 ### License
 - MIT

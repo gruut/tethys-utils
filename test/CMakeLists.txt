@@ -13,15 +13,15 @@ file (GLOB SRC_FILES
         "../src/*.cpp"
         )
 
-add_executable(gruut_utils_test test_main.cpp)
+add_executable(tethys_utils_test test_main.cpp)
 
-target_sources(gruut_utils_test
+target_sources(tethys_utils_test
         PUBLIC
         ${HEADER_FILES}
         ${SRC_FILES}
         )
 
-target_link_libraries(gruut_utils_test
+target_link_libraries(tethys_utils_test
         PRIVATE
         ${BOTAN_LIBS}
         ${LZ4_LIBS}
@@ -29,7 +29,7 @@ target_link_libraries(gruut_utils_test
 
 IF (NOT $ENV{TRAVIS})
     add_custom_command(
-            TARGET gruut_utils_test
+            TARGET tethys_utils_test
             POST_BUILD
             COMMAND clang-format -i *.cpp
     )

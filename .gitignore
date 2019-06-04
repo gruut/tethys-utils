@@ -32,8 +32,8 @@
 *.exe
 *.out
 *.app
-gruut_utils
-gruut_utils_test
+tethys_utils
+tethys_utils_test
 
 # IDE Settings
 .idea
