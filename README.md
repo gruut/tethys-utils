@@ -1,4 +1,4 @@
-# gruut-utils
+# tethys-utils
 [![Build Status](https://travis-ci.org/gruut/gruut-utils.svg?branch=master)](https://travis-ci.org/gruut/gruut-utils)
 
 ## Utilities for cpp projects
