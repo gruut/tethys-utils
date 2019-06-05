@@ -14,10 +14,10 @@
 
 using namespace std;
 
-template<unsigned int>
+template <unsigned int>
 struct Encoder;
 
-template<>
+template <>
 struct Encoder<58> {
   static auto encode(const vector<uint8_t> &&base_str) {
     auto encoded = Botan::base58_encode(base_str);
@@ -25,7 +25,7 @@ struct Encoder<58> {
   }
 };
 
-template<>
+template <>
 struct Encoder<64> {
   static auto encode(const vector<uint8_t> &&base_str) {
     auto encoded = Botan::base64_encode(base_str);
@@ -33,10 +33,10 @@ struct Encoder<64> {
   }
 };
 
-template<unsigned int>
+template <unsigned int>
 struct Decoder;
 
-template<>
+template <>
 struct Decoder<58> {
   static auto decode(string_view base_str) {
     auto decoded = Botan::base58_decode(base_str.data());
@@ -44,7 +44,7 @@ struct Decoder<58> {
   }
 };
 
-template<>
+template <>
 struct Decoder<64> {
   static auto decode(string_view base_str) {
     auto decoded = Botan::base64_decode(base_str.data());
@@ -54,23 +54,24 @@ struct Decoder<64> {
 
 class TypeConverter {
 public:
-  template<class T>
+  template <class T>
   inline static vector<uint8_t> integerToBytes(T &&input) {
     std::vector<uint8_t> v;
     auto input_size = sizeof(input);
+    auto tmp = input;
 
     v.reserve(input_size);
 
     for (auto i = 0; i < input_size; ++i) {
-      v.push_back(static_cast<uint8_t>(input & 0xFF));
-      input >>= 8;
+      v.push_back(static_cast<uint8_t>(tmp & 0xFF));
+      tmp >>= 8;
     }
 
     reverse(v.begin(), v.end());
     return v;
   }
 
-  template<size_t ArraySize, typename T = std::vector<uint8_t>>
+  template <size_t ArraySize, typename T = std::vector<uint8_t>>
   inline static std::array<uint8_t, ArraySize> bytesToArray(T &&bytes) {
     using Array = std::array<uint8_t, ArraySize>;
 
@@ -82,7 +83,7 @@ public:
     return arr;
   }
 
-  template<unsigned int S, size_t ArraySize>
+  template <unsigned int S, size_t ArraySize>
   inline static std::array<uint8_t, ArraySize> arrayFromBase(string_view basexx_str) {
     using Array = std::array<uint8_t, ArraySize>;
 
@@ -100,7 +101,7 @@ public:
     return arr;
   }
 
-  template<unsigned int S>
+  template <unsigned int S>
   inline static string decodeBase(string_view base_str) {
     using decoder = Decoder<S>;
 
@@ -113,12 +114,12 @@ public:
     return string();
   }
 
-  template<typename T = std::vector<uint8_t>>
+  template <typename T = std::vector<uint8_t>>
   inline static std::string bytesToString(T &&input) {
     return std::string(input.begin(), input.end());
   }
 
-  template<size_t S, class Array = array<uint8_t, S>>
+  template <size_t S, class Array = array<uint8_t, S>>
   inline static std::string arrayToString(Array &&arr) {
     std::string str(arr.begin(), arr.end());
     return str;
@@ -128,7 +129,7 @@ public:
     return std::vector<uint8_t>(input.begin(), input.end());
   }
 
-  template<unsigned int S, typename T>
+  template <unsigned int S, typename T>
   inline static string encodeBase(T &&t) {
     using encoder = Encoder<S>;
 
@@ -141,7 +142,7 @@ public:
     return std::string("");
   }
 
-  template<class Container>
+  template <class Container>
   static inline std::string toString(const Container &&bytes) {
     return std::string(bytes.cbegin(), bytes.cend());
   }
