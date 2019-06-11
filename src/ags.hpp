@@ -1,5 +1,5 @@
-#ifndef GRUUT_UTILS_AGS_HPP
-#define GRUUT_UTILS_AGS_HPP
+#ifndef TETHYS_UTILS_AGS_HPP
+#define TETHYS_UTILS_AGS_HPP
 
 #include <algorithm>
 #include <string>
@@ -89,4 +89,4 @@ private:
   bool isUniqueElements(vector<AggregateSig> &aggregate_set);
 };
 
-#endif // GRUUT_UTILS_AGS_HPP
+#endif // TETHYS_UTILS_AGS_HPP

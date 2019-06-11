@@ -1,5 +1,5 @@
-#ifndef GRUUT_UTILS_ECDSA_HPP
-#define GRUUT_UTILS_ECDSA_HPP
+#ifndef TETHYS_UTILS_ECDSA_HPP
+#define TETHYS_UTILS_ECDSA_HPP
 
 #include "type_converter.hpp"
 

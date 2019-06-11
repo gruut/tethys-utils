@@ -1,5 +1,5 @@
-#ifndef GRUUT_UTILS_BYTES_BUILDER_HPP
-#define GRUUT_UTILS_BYTES_BUILDER_HPP
+#ifndef TETHYS_UTILS_BYTES_BUILDER_HPP
+#define TETHYS_UTILS_BYTES_BUILDER_HPP
 
 #include <cstdint>
 #include <cstring>
@@ -65,4 +65,4 @@ private:
   vector<uint8_t> bytes;
 };
 
-#endif // GRUUT_UTILS_BYTES_BUILDER_HPP
+#endif // TETHYS_UTILS_BYTES_BUILDER_HPP

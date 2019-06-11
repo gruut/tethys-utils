@@ -1,5 +1,5 @@
-#ifndef GRUUT_UTILS_HMAC_HPP
-#define GRUUT_UTILS_HMAC_HPP
+#ifndef TETHYS_UTILS_HMAC_HPP
+#define TETHYS_UTILS_HMAC_HPP
 
 #include "sha256.hpp"
 #include <botan-2/botan/mac.h>
@@ -27,4 +27,4 @@ public:
   }
 };
 
-#endif //GRUUT_UTILS_HMAC_HPP
+#endif //TETHYS_UTILS_HMAC_HPP

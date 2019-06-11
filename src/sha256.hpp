@@ -1,5 +1,5 @@
-#ifndef GRUUT_UTILS_SHA_256_HPP
-#define GRUUT_UTILS_SHA_256_HPP
+#ifndef TETHYS_UTILS_SHA_256_HPP
+#define TETHYS_UTILS_SHA_256_HPP
 
 #include <botan-2/botan/base64.h>
 #include <botan-2/botan/hash.h>
