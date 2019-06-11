@@ -1,5 +1,5 @@
-#ifndef GRUUT_UTILS_COMPRESSOR_HPP
-#define GRUUT_UTILS_COMPRESSOR_HPP
+#ifndef TETHYS_UTILS_COMPRESSOR_HPP
+#define TETHYS_UTILS_COMPRESSOR_HPP
 
 #include <lz4.h>
 #include <string>

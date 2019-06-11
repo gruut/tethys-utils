@@ -1,5 +1,5 @@
-#ifndef GRUUT_UTILS_TYPE_CONVERTER_HPP
-#define GRUUT_UTILS_TYPE_CONVERTER_HPP
+#ifndef TETHYS_UTILS_TYPE_CONVERTER_HPP
+#define TETHYS_UTILS_TYPE_CONVERTER_HPP
 
 #include <algorithm>
 #include <array>

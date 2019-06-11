@@ -1,5 +1,5 @@
-#ifndef GRUUT_UTILS_TIME_HPP
-#define GRUUT_UTILS_TIME_HPP
+#ifndef TETHYS_UTILS_TIME_HPP
+#define TETHYS_UTILS_TIME_HPP
 
 #include <chrono>
 #include <string>
