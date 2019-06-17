@@ -19,7 +19,7 @@ using namespace std;
 class HmacKeyMaker {
 public:
   HmacKeyMaker()
-      : group_domain{"secp256r1"}, kdf{"Raw"}, curve{Botan::CurveGFp(group_domain.get_p(), group_domain.get_a(), group_domain.get_b())} {}
+      : group_domain{"secp256k1"}, kdf{"Raw"}, curve{Botan::CurveGFp(group_domain.get_p(), group_domain.get_a(), group_domain.get_b())} {}
 
   pair<string, string> getPublicKey() {
     generateRandomSecretKey();
