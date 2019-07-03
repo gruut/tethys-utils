@@ -61,6 +61,10 @@ public:
     return string(bytes.begin(), bytes.end());
   }
 
+  void clear() {
+    bytes.clear();
+  }
+
 private:
   vector<uint8_t> bytes;
 };
